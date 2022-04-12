@@ -11,6 +11,7 @@ scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 def displayLiveChatID(stream):  # change to getLiveChatId & remove liveChatId print when not debugging
     chat_id = stream['snippet']['liveChatId']
     print(f"Title: {stream['snippet']['title']}\nliveChatID: {chat_id}")
+    print()
     return chat_id
 
 # maybe seperate parts into different methods/functions
@@ -71,21 +72,27 @@ def main():
     response = request.execute()
 
     # pprint.pprint(response) # Debug print statement
+    # print()
     
     # 🟥: youtube
     # 🟪: twitch
 
-    for message in response["items"]:
-        print(f"{message['authorDetails']['displayName']}: {message['snippet']['displayMessage']}") # why are there two message fields in the response
+    # # this worked before, idk might still be needed
+    # for message in response["items"]:
+    #     print(f"{message['authorDetails']['displayName']}: {message['snippet']['displayMessage']}") # why are there two message fields in the response
     
-
-    # CREATE A WAY TO ONLY PRINT MESSAGES ONCE (maybe also remove deleted messages)
-    # maybe a dictionary/list with message[etag]?
-    # # maybe use a listener here instead of relying on KeyboardInterrupt
-    # while "error" not in response:
-    #     for message in response["items"]:
-    #         print(f"{message['authorDetails']}: {message['snippet']['displayMessage']}") # why are there two message fields
-    #         time.sleep(response["pollingIntervalMillis"]/1000) if response["pollingIntervalMillis"]/1000 > 5 else time.sleep(5) # no idea if this works, maybe increase to 10
+    # maybe use a listener here instead of relying on KeyboardInterrupt
+    message_ids = []
+    try:
+        while "error" not in response:
+            for message in response["items"]:
+                if message["id"] not in message_ids:
+                    print(f"🟥 {message['authorDetails']['displayName']}: {message['snippet']['displayMessage']}") # why are there two message fields
+                    message_ids.append(message["id"])
+            time.sleep(response["pollingIntervalMillis"]/1000) if response["pollingIntervalMillis"]/1000 > 5 else time.sleep(5) # no idea if this works, maybe increase to 10
+            response = request.execute()
+    except KeyboardInterrupt:
+        print("\nExited.")
 
 if __name__ == "__main__":
     main()
