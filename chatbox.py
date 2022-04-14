@@ -77,7 +77,7 @@ def main():
     # 🟥: youtube
     # 🟪: twitch
 
-    # # this worked before, idk might still be needed
+    # # only display the current sent messages once
     # for message in response["items"]:
     #     print(f"{message['authorDetails']['displayName']}: {message['snippet']['displayMessage']}") # why are there two message fields in the response
     
@@ -92,7 +92,7 @@ def main():
             time.sleep(response["pollingIntervalMillis"]/1000) if response["pollingIntervalMillis"]/1000 > 5 else time.sleep(5) # no idea if this works, maybe increase to 10
             response = request.execute()
     except KeyboardInterrupt:
-        print("\nExited.")
+        print("\nProgram Exited.")
 
 if __name__ == "__main__":
     main()
