@@ -1,12 +1,12 @@
-import asyncio
+import threading
 
 import youtube
 import twitch
 
-yt = youtube.youtubeChat()
-yt.init()
+youtube.init()
 
-tw = twitch.twitchChat()
+yt_chat = threading.Thread(target=youtube.messages)
+ttv_chat = threading.Thread(target=twitch.messages)
 
-asyncio.run(yt.messages())
-asyncio.run(tw.messages())
+yt_chat.start()
+ttv_chat.start()
