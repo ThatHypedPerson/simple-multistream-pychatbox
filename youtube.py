@@ -82,11 +82,23 @@ def messages():
         while "error" not in response:
             for message in response["items"]:
                 if message["id"] not in message_ids:
-                    print(f"🟥 {message['authorDetails']['displayName']}: {message['snippet']['displayMessage']}")
+                    # Add emojis before message based on chatter's status
+                    full_message = "🟥 "
+                    if message['authorDetails']['isChatOwner']:
+                        full_message += "👑 "
+                    if message['authorDetails']['isChatModerator']:
+                        full_message += "⚔️ "
+                    if message['authorDetails']['isChatSponsor']:
+                        full_message += "⭐ "
+                    if message['authorDetails']['isVerified']:
+                        full_message += "✔️ "
+                    full_message += f"{message['authorDetails']['displayName']}: {message['snippet']['displayMessage']}"
+                    print(full_message)
+
+                    # Add message id to list so it does not get printed again
                     message_ids.append(message["id"])
             # wait until the request can be done again or 5 seconds to not fully use up the quota
             time.sleep(response["pollingIntervalMillis"]/1000) if response["pollingIntervalMillis"]/1000 > min_wait_time else time.sleep(min_wait_time)
-            print("checking for new messages")
             response = request.execute()
     except (SystemExit, KeyboardInterrupt):
         print("\n🟥 Program Exited.")
