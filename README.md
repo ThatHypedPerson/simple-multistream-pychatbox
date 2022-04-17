@@ -1,6 +1,7 @@
 # Simple Multistream Python Chatbox
 
 I made this just to learn how the chats for both YouTube and Twitch livestreaming work for a different project. This will not send any messages, only read and print them to the terminal.<br>
+You realistically should not use this for anything practical, however all the code is commented if you also want to learn how to use the raw APIs of YouTube and Twitch in Python.<br>
 _This was made in Python 3.10, so I have no idea if its backwards compatible._<br>
 
 ## Example Output
