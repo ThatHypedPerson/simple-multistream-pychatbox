@@ -87,15 +87,17 @@ def messages():
                     # Add emojis before message based on chatter's status
                     identifiers = "🟥 "
                     if message['authorDetails']['isChatOwner']:
-                        identifiers += "👑 "
+                        identifiers += "👑"
                     if message['authorDetails']['isChatModerator']:
-                        identifiers += "⚔️ "
+                        identifiers += "⚔️"
                     if message['authorDetails']['isChatSponsor']:
-                        identifiers += "⭐ "
+                        identifiers += "⭐"
                     if message['authorDetails']['isVerified']:
-                        identifiers += "✔️ "
+                        identifiers += "✔️"
                     username = message['authorDetails']['displayName']
                     text = message['snippet']['displayMessage']
+                    if len(identifiers) > 2: # Add a space if a status is added to a message
+                        identifiers += " "
                     print(f"{identifiers}{username}: {text}")
 
                     # Add message id to list so it does not get printed again

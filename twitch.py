@@ -34,16 +34,17 @@ def messages():
                 badges = resp[resp.find("badges=") + 7 : resp.find(";", resp.find("badges=") + 1)]
                 if(badges != ""):
                     if("broadcaster" in badges):
-                        identifiers += "👑 "
+                        identifiers += "👑"
                     if any(admin in badges for admin in ["admin", "global_mod", "staff"]): # no clue if these are correct
-                        identifiers += "🛠️ "
+                        identifiers += "🛠️"
                     if("moderator" in badges):
-                        identifiers += "⚔️ "
+                        identifiers += "⚔️"
                     if("vip" in badges):
-                        identifiers += "💎 "
+                        identifiers += "💎"
                     if("subscriber" in badges): # Maybe add different color stars based on subscriber status
-                        identifiers += "⭐ "
-                
+                        identifiers += "⭐"
+                    if len(identifiers) > 2: # Only add a space if a known badge is added
+                        identifiers += " "
                 # Filter out someone's display name and message (dumb way of doing it, but it works)
                 username = resp[resp.find("display-name=") + 13 : resp.find(";", resp.find("display-name="))]
                 message = resp[resp.find(" :", resp.find("PRIVMSG")) + 2 : -2]
