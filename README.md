@@ -1,7 +1,18 @@
 # Simple Multistream Python Chatbox
 
 I made this just to learn how the chats for both YouTube and Twitch livestreaming work for a different project. This will not send any messages, only read and print them to the terminal.<br>
-This was made in Python 3.10, so I have no idea if its backwards compatible.
+_This was made in Python 3.10, so I have no idea if its backwards compatible._<br>
+
+## Example Output
+```
+🟪 Twitch: Connected to channel: thathypedperson
+🟥 Title: 🔴【hypixel】witty title | Hyped (Does not print the channel's name)
+🟪 Twitch: Now reading chat.
+🟥 YouTube: Now reading chat.
+🟥 👑 Hypedです: 🙋
+🟪 👑💎 ThatHypedPerson: o/
+🟪 ddepyh: this is an example chat message PogChamp
+```
 
 # Setup
 ## Prerequisites
@@ -53,6 +64,7 @@ Choose which stream's liveChatId you want:
 * This program only reads chat messages from one YouTube livestream and one Twitch Livestream, I may add a way to set this up using arguments or a way to add more streams.
 * A way to skip Google Authentication needing to be ran every time, this should be a simple fix for reading from the same stream.
 * An argument to disable the printing of emojis. Emojis are currently used to show a user's identifiers/badges (broadcaster/mod/vip) or in some messages, but some terminals can't output emojis.
+* Commands to close the program using the stream's chat.
 * Rate limiting - encountered some issues with this during programming, but they shouldn't come up during use. (If left running all day, YouTube may run out of queries)
 * The way the program displays YouTube chat is sloppy, need to find a better way of choosing which messages to display.
 * Commands on Twitch do not print correctly.
