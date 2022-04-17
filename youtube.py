@@ -32,7 +32,7 @@ chat_id = ""
 def displayLiveChatID(stream):
     global chat_id
     chat_id = stream['snippet']['liveChatId']
-    print(f"🟥 Title: {stream['snippet']['title']}\n")
+    print(f"🟥 Title: {stream['snippet']['title']}")
     # print(f"🟥 Title: {stream['snippet']['title']}\nliveChatID: {chat_id}") # debugging
 
 

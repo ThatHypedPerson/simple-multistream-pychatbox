@@ -3,12 +3,12 @@ import threading # run both chats at the same time
 
 # Import external files + initialize their connections
 import youtube
-import twitch
-
-if name == 'nt':
+if name == 'nt': # Clear screen to make the output look nicer
     system('cls')
 else:
     system('clear')
+
+import twitch
 
 # Get the YouTube livestream's chat
 youtube.init()
