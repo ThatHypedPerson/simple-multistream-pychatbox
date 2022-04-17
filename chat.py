@@ -1,8 +1,14 @@
-import threading
+from os import system, name # clear google authentication
+import threading # run both chats at the same time
 
 # Import external files + initialize their connections
 import youtube
 import twitch
+
+if name == 'nt':
+    system('cls')
+else:
+    system('clear')
 
 # Get the YouTube livestream's chat
 youtube.init()
