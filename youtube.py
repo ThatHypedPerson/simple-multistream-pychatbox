@@ -83,17 +83,18 @@ def messages():
             for message in response["items"]:
                 if message["id"] not in message_ids:
                     # Add emojis before message based on chatter's status
-                    full_message = "🟥 "
+                    identifiers = "🟥 "
                     if message['authorDetails']['isChatOwner']:
-                        full_message += "👑 "
+                        identifiers += "👑 "
                     if message['authorDetails']['isChatModerator']:
-                        full_message += "⚔️ "
+                        identifiers += "⚔️ "
                     if message['authorDetails']['isChatSponsor']:
-                        full_message += "⭐ "
+                        identifiers += "⭐ "
                     if message['authorDetails']['isVerified']:
-                        full_message += "✔️ "
-                    full_message += f"{message['authorDetails']['displayName']}: {message['snippet']['displayMessage']}"
-                    print(full_message)
+                        identifiers += "✔️ "
+                    username = message['authorDetails']['displayName']
+                    text = message['snippet']['displayMessage']
+                    print(f"{identifiers}{username}: {text}")
 
                     # Add message id to list so it does not get printed again
                     message_ids.append(message["id"])
