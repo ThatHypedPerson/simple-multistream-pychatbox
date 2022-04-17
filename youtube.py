@@ -1,6 +1,5 @@
 import os
 import time # delay api requests
-import pprint # debugging print beautifier
 
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
@@ -22,7 +21,11 @@ scopes = ["https://www.googleapis.com/auth/youtube.readonly"]
 # Get credentials and create an API client
 flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
     client_secrets_file, scopes)
-credentials = flow.run_console()
+try:
+    credentials = flow.run_console()
+except Exception as error:
+    print(error)
+    quit()
 youtube = googleapiclient.discovery.build(
     api_service_name, api_version, credentials=credentials)
 
@@ -47,15 +50,27 @@ def init():
 
     # cycle through all pages (might as well)
     streams = []
-    while request is not None:
-        response = request.execute()
-        for item in response["items"]:
-            if item["status"]["lifeCycleStatus"] != "complete": # only look at active/soon to be active streams
-                streams.append(item)
-        request = youtube.playlistItems().list_next(request, response)
+    try:
+        while request is not None:
+            response = request.execute()
+            for item in response["items"]:
+                if item["status"]["lifeCycleStatus"] != "complete": # only look at active/soon to be active streams
+                    streams.append(item)
+            request = youtube.playlistItems().list_next(request, response)
+    except googleapiclient.errors.HttpError as error:
+        reason = str(error)
+        print(reason[reason.find("'message': '") + 12: reason.find("',", reason.find("'message': '"))])
+        quit()
+    except Exception as e:
+        print("An unknown error has occcured.")
+        print(e)
+        quit()
 
     if len(streams) == 1: # skip selection if theres only one stream selectable
         displayLiveChatID(streams[0])
+    elif len(streams) == 0: # if no livestreams are available on the channel
+        print("There are no valid livestreams on this channel, exiting program.")
+        quit()
     else: # why would you have more than one stream available are you crazy
         index = 0
         for stream in streams:
@@ -105,8 +120,16 @@ def messages():
             # wait until the request can be done again or 5 seconds to not fully use up the quota
             time.sleep(response["pollingIntervalMillis"]/1000) if response["pollingIntervalMillis"]/1000 > min_wait_time else time.sleep(min_wait_time)
             response = request.execute()
+    except googleapiclient.errors.HttpError as error:
+        if "liveChatEnded" in str(error):
+            print("\n🟥 The livestream has ended, exiting chat.")
     except (SystemExit, KeyboardInterrupt):
         print("\n🟥 Program Exited.")
+    except Exception as error:
+        print("An unknown error has occured.")
+        print(error)
+        print("\n🟥 Program Exited.")
+        quit()
 
 if __name__ == "__main__":
     init()
