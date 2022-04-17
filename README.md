@@ -6,7 +6,7 @@ _This was made in Python 3.10, so I have no idea if its backwards compatible._<b
 ## Example Output
 ```
 🟪 Twitch: Connected to channel: thathypedperson
-🟥 Title: 🔴【hypixel】witty title | Hyped (Does not print the channel's name)
+🟥 Title: Witty Title
 🟪 Twitch: Now reading chat.
 🟥 YouTube: Now reading chat.
 🟥 👑 Hypedです: 🙋
