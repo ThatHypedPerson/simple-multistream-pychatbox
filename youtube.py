@@ -79,6 +79,8 @@ def messages():
     # still need to check for when the amount of messages exceeds the first page
     try:
         print("🟥 YouTube: Now reading chat.")
+        for message in response["items"]: # Ignore messages sent before running the program.
+            message_ids.append(message["id"])
         while "error" not in response:
             for message in response["items"]:
                 if message["id"] not in message_ids:
