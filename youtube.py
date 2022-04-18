@@ -120,9 +120,15 @@ def messages():
             # wait until the request can be done again or 5 seconds to not fully use up the quota
             time.sleep(response["pollingIntervalMillis"]/1000) if response["pollingIntervalMillis"]/1000 > min_wait_time else time.sleep(min_wait_time)
             response = request.execute()
+    # Error Handling
     except googleapiclient.errors.HttpError as error:
         if "liveChatEnded" in str(error):
             print("\n🟥 The livestream has ended, exiting chat.")
+        else:
+            print("An unknown error has occured.")
+            print(error)
+            print("\n🟥 Program Exited.")
+            quit()
     except (SystemExit, KeyboardInterrupt):
         print("\n🟥 Program Exited.")
     except Exception as error:
